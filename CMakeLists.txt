@@ -110,7 +110,9 @@
 
 # To minimize the number of cmake_policy() workarounds,
 # CMake >= 3 is requested.
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 if (NOT CMAKE_VERSION VERSION_LESS 3.3)
   # Allow symbol visibility settings also on static libraries. CMake < 3.3
@@ -160,7 +162,7 @@ else ()
 endif ()
 
 
-project(freetype C)
+project(freetype C CXX)
 
 set(VERSION_MAJOR "2")
 set(VERSION_MINOR "13")
@@ -189,6 +191,10 @@ set(LIBRARY_VERSION "${LIBRARY_SOVERSION}.${LIBTOOL_AGE}.${LIBTOOL_REVISION}")
 # top of this file, for how to force or disable dependencies completely.
 option(FT_DISABLE_ZLIB
   "Disable use of system zlib and use internal zlib library instead." OFF)
+
+option(FT_BUILD_EXAMPLES
+  "Build examples" OFF)
+
 cmake_dependent_option(FT_REQUIRE_ZLIB
   "Require system zlib instead of internal zlib library." OFF
   "NOT FT_DISABLE_ZLIB" OFF)
@@ -679,3 +685,7 @@ set(CPACK_COMPONENT_LIBRARIES_GROUP "Development")
 set(CPACK_COMPONENT_HEADERS_GROUP "Development")
 
 include(CPack)
+
+if(FT_BUILD_EXAMPLES)
+add_subdirectory(demos)
+endif ()

@@ -1,0 +1,2 @@
+add_executable(test_bitmap_font test_bitmap_font.cc)
+target_link_libraries(test_bitmap_font freetype)

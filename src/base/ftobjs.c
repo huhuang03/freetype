@@ -1010,6 +1010,7 @@
       }
     }
 
+// what is auto hint??
     if ( autohint )
     {
       FT_AutoHinter_Interface  hinting;
